@@ -1,34 +1,68 @@
+const config = require('./config/config')
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Default Starter`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    ...config
   },
   plugins: [
-    `gatsby-plugin-react-helmet`,
+    'gatsby-plugin-react-helmet',
+    'gatsby-transformer-sharp',
+    'gatsby-plugin-sharp',
+    'gatsby-plugin-styled-components',
+    'gatsby-plugin-sitemap',
+    'gatsby-transformer-remark',
+    'gatsby-plugin-robots-txt',
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: `gatsby-plugin-prefetch-google-fonts`,
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`,
-      },
+        fonts: [
+          {
+            family: "Merriweather",
+            variants: ["400", "700", "900", "700i", "900i"]
+          },
+          {
+            family: "Playfair Display",
+            variants: ["700", "700i"]
+          }
+        ]
+      }
     },
-    `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `gatsby-starter-default`,
-        short_name: `starter`,
-        start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
-        display: `minimal-ui`,
-        icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
-      },
+        name: config.title,
+        short_name: config.shortName,
+        description: config.description,
+        start_url: "/",
+        background_color: config.backgroundColor,
+        theme_color: config.themeColor,
+        display: "standalone",
+        icon: `src/assets/JR-logo.png`
+      }
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
-  ],
+    // {
+    //   resolve: `gatsby-source-contentful`,
+    //   options: {
+    //     spaceId: process.env.SPACE_ID,
+    //     accessToken: process.env.TOKEN
+    //   }
+    // },
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'src',
+        path: `${__dirname}/src/`
+      }
+    },
+    {
+      resolve: `gatsby-plugin-nprogress`,
+      options: {
+        color: config.themeColor,
+        showSpinner: false
+      }
+    },
+    'gatsby-plugin-offline',
+    'gatsby-plugin-netlify-cache',
+    'gatsby-plugin-netlify'
+  ]
 }
